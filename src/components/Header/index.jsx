@@ -1,0 +1,20 @@
+import { ButtonStyle } from "../Button/style"
+import { HeaderStyle } from "./style"
+
+
+export const Header = ({ setIsLogged }) => {
+
+    const logout = () => {
+        localStorage.clear()
+        setIsLogged(false)
+    }
+
+    return (
+        <HeaderStyle>
+            <nav className="container">
+                <h1>Kenzie Hub</h1>
+                <ButtonStyle onClick={logout} width="fit" styledBtn="grey" type="button" fontSize="5" fontWeight="2">Sair</ButtonStyle>
+            </nav>
+        </HeaderStyle>
+    )
+}
