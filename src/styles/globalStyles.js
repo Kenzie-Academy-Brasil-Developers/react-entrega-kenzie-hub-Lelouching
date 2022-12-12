@@ -3,7 +3,6 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 
     :root{
-        
         --color-primary-1: #FF577F;
         --color-primary-2: #FF427F;
         --color-primary-3: #59323F;
@@ -32,7 +31,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     #root{
-        min-width: 100vw;
+        min-width: 100%;
         min-height: 100vh;
         background-color: var(--color-grey-4);
         font-family: 'Inter', sans-serif;

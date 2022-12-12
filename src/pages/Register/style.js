@@ -6,7 +6,7 @@ export const RegisterStyle = styled.main`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    padding-top: 7rem;
+    padding: 1rem 0.5rem 0 0.5rem;
 
     & > div{
         display: flex;
@@ -14,6 +14,7 @@ export const RegisterStyle = styled.main`
         justify-content: space-between;
         width: 23.125rem;
         max-width: 100%;
+        
     }
 
     div > h1{

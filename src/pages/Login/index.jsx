@@ -5,17 +5,16 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Input } from "../../components/Input"
 import { ButtonStyle } from "../../components/Button/style"
-import { Link, useNavigate } from "react-router-dom"
-import { toast, ToastContainer } from "react-toastify"
+import { Link } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
-import { useState } from "react"
+import { useContext } from "react"
 import { api } from "../../services/api"
+import { UserContext } from "../../context/UserContext"
 
-export const Login = ({ setIsLogged }) => {
+export const Login = () => {
 
-    const [loading, setLoading] = useState(false)
-
-    const navigate = useNavigate()
+    const { loginUser, loadingLogin } = useContext(UserContext)
 
     const formSchema = yup.object().shape({
         email: yup.string().required("Você precisa colocar um email").email("Seu email está incompleto"),
@@ -25,48 +24,6 @@ export const Login = ({ setIsLogged }) => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     })
-
-    const loginUser = async (data) => {
-        setLoading(true)
-        try{
-            console.log(data)
-            const logging = await api.post("/sessions", data)
-
-            toast.success("Você logou com sucesso!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light", 
-            })
-
-            localStorage.setItem("@token", logging.data.token)
-            localStorage.setItem("@userId", logging.data.user.id)
-
-            setIsLogged(true)
-
-            setTimeout(() => {
-                navigate("/dashboard")
-            }, 1500)
-        } catch (err) {
-            console.log(err)
-            toast.error("Ops, ocorreu algum erro!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light", 
-            })
-        } finally {
-            setLoading(false)
-        }
-    }
 
     return (
         <LoginStyle>
@@ -82,8 +39,8 @@ export const Login = ({ setIsLogged }) => {
                     <Input id="password" placeholder="Insira sua senha" label="Senha" type="password" register={register("password")} />
                     {errors.password && <span>{errors.password.message}</span>}
                 </div>
-                <ButtonStyle width="full" styledBtn="brand" fontSize="5" fontWeight="3" type="submit" disabled={loading}>
-                    {loading ? "Entrando..." : "Entrar"}
+                <ButtonStyle width="full" styledBtn="brand" fontSize="5" fontWeight="3" type="submit" disabled={loadingLogin}>
+                    {loadingLogin ? "Entrando..." : "Entrar"}
                 </ButtonStyle>
                 <span>Ainda não possui conta?</span>
                 <Link to="/register">

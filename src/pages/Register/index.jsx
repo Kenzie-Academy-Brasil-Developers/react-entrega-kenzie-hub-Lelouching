@@ -5,17 +5,15 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { ButtonStyle } from "../../components/Button/style"
 import { FormStyle } from "../../components/Form/style"
 import { Input } from "../../components/Input"
-import { Link, Navigate, useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
-import { api } from "../../services/api"
-import { toast, ToastContainer } from "react-toastify"
+import { Link } from "react-router-dom"
+import { useContext } from "react"
+import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import { UserContext } from "../../context/UserContext"
 
 export const Register = () => {
 
-    const navigate = useNavigate()
-
-    const [loading, setLoading] = useState(false)
+    const { registerUser, loadingRegister } = useContext(UserContext)
 
     const formSchema = yup.object().shape({
         name: yup.string().required("Você precisa colocar um nome"),
@@ -29,52 +27,6 @@ export const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(formSchema)
     })
-
-    const registerUser = async (data) => {
-        setLoading(true)
-        try{
-            const { email, password, name, bio, contact, course_module } = data
-
-            const registering = await api.post("/users", {
-                email: email,
-                password: password,
-                name: name,
-                bio: bio,
-                contact: contact,
-                course_module: course_module
-            })
-
-            toast.success("Conta criada com sucesso!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light", 
-            })
-
-            setTimeout(() => {
-                navigate("/")
-            }, 3000)
-        } catch (err) {
-            console.log(err)
-            toast.error("Ops, ocorreu algum erro!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            })
-        } finally {
-            setLoading(false)
-        }
-    }
-
 
     return (
         <RegisterStyle>
@@ -125,8 +77,8 @@ export const Register = () => {
                         <option value="Sexto Módulo">Sexto Módulo</option>
                     </select>
                 </div>
-                <ButtonStyle type="submit" width="full" styledBtn="brand" fontSize="5" fontWeight="3" disabled={loading}>
-                    {loading ? "Cadastrando..." : "Cadastrar"}
+                <ButtonStyle type="submit" width="full" styledBtn="brand" fontSize="5" fontWeight="3" disabled={loadingRegister}>
+                    {loadingRegister ? "Cadastrando..." : "Cadastrar"}
                 </ButtonStyle>
             </FormStyle>
         </RegisterStyle>

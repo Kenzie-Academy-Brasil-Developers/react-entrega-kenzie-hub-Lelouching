@@ -6,7 +6,7 @@ export const LoginStyle = styled.main`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    padding-top: 10rem;
+    padding: 2rem 0.5rem 0 0.5rem;
 
     h1{
         font-size: var(--font-size-1);

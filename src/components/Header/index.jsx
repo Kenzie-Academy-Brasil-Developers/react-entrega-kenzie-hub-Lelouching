@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom"
 import { ButtonStyle } from "../Button/style"
 import { HeaderStyle } from "./style"
 
+export const Header = () => {
 
-export const Header = ({ setIsLogged }) => {
+    const navigate = useNavigate()
 
     const logout = () => {
         localStorage.clear()
-        setIsLogged(false)
+        navigate("/")
     }
 
     return (
