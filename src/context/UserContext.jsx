@@ -112,7 +112,7 @@ export const UserProvider = ({ children }) => {
             }, 3000)
         } catch (err) {
             console.log(err)
-            toast.error("Ops, ocorreu algum erro!", {
+            toast.error("Ops, esse email já está em uso!", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
